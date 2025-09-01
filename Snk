@@ -1,92 +1,336 @@
-local MirandaHub = Instance.new("ScreenGui")
-local MainFrame = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
-local TpButton = Instance.new("TextButton")
-local NoclipButton = Instance.new("TextButton")
-local AvatarButton = Instance.new("TextButton")
-local TrollingButton = Instance.new("TextButton")
-local CloseButton = Instance.new("TextButton")
+-- Miranda Hub Brainrot - Español
+-- Inspirado en Miranda Hub TikTok | senkooooo666
 
--- Configuración GUI
-MirandaHub.Name = "MirandaHub"
-MirandaHub.Parent = game.CoreGui
+if game.CoreGui:FindFirstChild("MirandaHub") then
+    game.CoreGui.MirandaHub:Destroy()
+end
 
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = MirandaHub
-MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-MainFrame.Position = UDim2.new(0.2, 0, 0.2, 0)
-MainFrame.Size = UDim2.new(0, 330, 0, 310)
-MainFrame.Active = true
-MainFrame.Draggable = true
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "MirandaHub"
 
-Title.Name = "Title"
-Title.Parent = MainFrame
-Title.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-Title.Size = UDim2.new(0, 330, 0, 32)
-Title.Font = Enum.Font.GothamBold
-Title.Text = "Miranda Hub - Brainrot"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 22
+local frame = Instance.new("Frame", gui)
+frame.Name = "MainFrame"
+frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+frame.BorderSizePixel = 0
+frame.Position = UDim2.new(0.2,0,0.2,0)
+frame.Size = UDim2.new(0,400,0,370)
+frame.Active = true
+frame.Draggable = true
 
-TpButton.Name = "TpButton"
-TpButton.Parent = MainFrame
-TpButton.Position = UDim2.new(0, 15, 0, 50)
-TpButton.Size = UDim2.new(0, 300, 0, 36)
-TpButton.BackgroundColor3 = Color3.fromRGB(20, 160, 100)
-TpButton.Font = Enum.Font.Gotham
-TpButton.Text = "Teletransporte a Jugador"
-TpButton.TextColor3 = Color3.fromRGB(255,255,255)
-TpButton.TextSize = 18
+local title = Instance.new("TextLabel", frame)
+title.Text = "Miranda Hub - Brainrot"
+title.Size = UDim2.new(0,400,0,36)
+title.BackgroundColor3 = Color3.fromRGB(40,40,40)
+title.Font = Enum.Font.GothamBold
+title.TextColor3 = Color3.fromRGB(255,255,255)
+title.TextSize = 22
+title.BorderSizePixel = 0
 
-NoclipButton.Name = "NoclipButton"
-NoclipButton.Parent = MainFrame
-NoclipButton.Position = UDim2.new(0, 15, 0, 100)
-NoclipButton.Size = UDim2.new(0, 300, 0, 36)
-NoclipButton.BackgroundColor3 = Color3.fromRGB(20, 120, 180)
-NoclipButton.Font = Enum.Font.Gotham
-NoclipButton.Text = "Activar Noclip"
-NoclipButton.TextColor3 = Color3.fromRGB(255,255,255)
-NoclipButton.TextSize = 18
+-- Pestañas
+local tabs = {"Main", "Jugador", "Trolleos", "Extras"}
+local tabButtons = {}
+local tabFrames = {}
 
-AvatarButton.Name = "AvatarButton"
-AvatarButton.Parent = MainFrame
-AvatarButton.Position = UDim2.new(0, 15, 0, 150)
-AvatarButton.Size = UDim2.new(0, 300, 0, 36)
-AvatarButton.BackgroundColor3 = Color3.fromRGB(220, 120, 20)
-AvatarButton.Font = Enum.Font.Gotham
-AvatarButton.Text = "Cambiar Avatar (Random)"
-AvatarButton.TextColor3 = Color3.fromRGB(255,255,255)
-AvatarButton.TextSize = 18
+for i, tab in ipairs(tabs) do
+    local btn = Instance.new("TextButton", frame)
+    btn.Name = tab.."Tab"
+    btn.Text = tab
+    btn.Position = UDim2.new(0, 10 + (i-1)*95, 0, 40)
+    btn.Size = UDim2.new(0, 90, 0, 30)
+    btn.BackgroundColor3 = Color3.fromRGB(60,60,60)
+    btn.Font = Enum.Font.Gotham
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.TextSize = 18
+    tabButtons[tab] = btn
+    local tabFrame = Instance.new("Frame", frame)
+    tabFrame.Position = UDim2.new(0,10,0,80)
+    tabFrame.Size = UDim2.new(0,380,0,270)
+    tabFrame.BackgroundTransparency = 1
+    tabFrame.Visible = (i == 1)
+    tabFrames[tab] = tabFrame
+    btn.MouseButton1Click:Connect(function()
+        for _, f in pairs(tabFrames) do f.Visible = false end
+        tabFrame.Visible = true
+    end)
+end
 
-TrollingButton.Name = "TrollingButton"
-TrollingButton.Parent = MainFrame
-TrollingButton.Position = UDim2.new(0, 15, 0, 200)
-TrollingButton.Size = UDim2.new(0, 300, 0, 36)
-TrollingButton.BackgroundColor3 = Color3.fromRGB(180, 20, 60)
-TrollingButton.Font = Enum.Font.Gotham
-TrollingButton.Text = "Trollear (Sonidos/Mensajes)"
-TrollingButton.TextColor3 = Color3.fromRGB(255,255,255)
-TrollingButton.TextSize = 18
+-- Selección jugador objetivo
+local playerLabel = Instance.new("TextLabel", tabFrames["Main"])
+playerLabel.Text = "Jugador objetivo:"
+playerLabel.Position = UDim2.new(0,10,0,10)
+playerLabel.Size = UDim2.new(0,150,0,24)
+playerLabel.BackgroundTransparency = 1
+playerLabel.Font = Enum.Font.Gotham
+playerLabel.TextColor3 = Color3.fromRGB(220,220,220)
+playerLabel.TextSize = 16
 
-CloseButton.Name = "CloseButton"
-CloseButton.Parent = MainFrame
-CloseButton.Position = UDim2.new(0, 240, 0, 260)
-CloseButton.Size = UDim2.new(0, 75, 0, 32)
-CloseButton.BackgroundColor3 = Color3.fromRGB(60,60,60)
-CloseButton.Font = Enum.Font.GothamBold
-CloseButton.Text = "Cerrar"
-CloseButton.TextColor3 = Color3.fromRGB(255,255,255)
-CloseButton.TextSize = 16
+local playerBox = Instance.new("TextBox", tabFrames["Main"])
+playerBox.PlaceholderText = "Nombre exacto"
+playerBox.Position = UDim2.new(0,160,0,10)
+playerBox.Size = UDim2.new(0,200,0,24)
+playerBox.BackgroundColor3 = Color3.fromRGB(60,60,60)
+playerBox.Font = Enum.Font.Gotham
+playerBox.TextColor3 = Color3.fromRGB(255,255,255)
+playerBox.TextSize = 16
 
--- Funciones
+-- Función para encontrar jugador objetivo
+local function getTarget()
+    local name = playerBox.Text
+    return game.Players:FindFirstChild(name)
+end
 
--- Teletransporte
-TpButton.MouseButton1Click:Connect(function()
-    local plr = game.Players.LocalPlayer
-    local targetName = game:GetService("Players"):GetPlayers()[math.random(1,#game:GetService("Players"):GetPlayers())].Name
-    local target = game.Players:FindFirstChild(targetName)
-    if target and target.Character and plr.Character then
-        plr.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame + Vector3.new(2,0,2)
-        Title.Text = "Teletransportado cerca de "..targetName
+-- Main Tab: Tp, Bring, Kill, Fling
+local actions = {
+    {"Teletransportar (Tp)", function()
+        local plr = game.Players.LocalPlayer
+        local target = getTarget()
+        if target and target.Character and plr.Character then
+            plr.Character:MoveTo(target.Character.HumanoidRootPart.Position + Vector3.new(2,0,2))
+        end
+    end},
+    {"Traer jugador (Bring)", function()
+        local plr = game.Players.LocalPlayer
+        local target = getTarget()
+        if target and target.Character and plr.Character then
+            target.Character:MoveTo(plr.Character.HumanoidRootPart.Position + Vector3.new(2,0,2))
+        end
+    end},
+    {"Fling jugador", function()
+        local target = getTarget()
+        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+            local hrp = target.Character.HumanoidRootPart
+            hrp.Velocity = Vector3.new(0, 1000, 0)
+        end
+    end},
+    {"Kill jugador", function()
+        local target = getTarget()
+        if target and target.Character and target.Character:FindFirstChild("Humanoid") then
+            target.Character.Humanoid.Health = 0
+        end
+    end},
+}
+for i, act in ipairs(actions) do
+    local btn = Instance.new("TextButton", tabFrames["Main"])
+    btn.Text = act[1]
+    btn.Position = UDim2.new(0,10,0,40+(i-1)*38)
+    btn.Size = UDim2.new(0,360,0,30)
+    btn.BackgroundColor3 = Color3.fromRGB(20,120,180)
+    btn.Font = Enum.Font.Gotham
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.TextSize = 16
+    btn.MouseButton1Click:Connect(act[2])
+end
+
+-- Jugador Tab: Fly, Noclip, Godmode, WalkSpeed, JumpPower
+local flyEnabled, noclipEnabled, godmodeEnabled = false, false, false
+local lp = game.Players.LocalPlayer
+
+local function toggleFly()
+    flyEnabled = not flyEnabled
+    local char = lp.Character
+    if flyEnabled and char then
+        local bp = Instance.new("BodyPosition", char.HumanoidRootPart)
+        bp.Name = "MirandaFly"
+        bp.MaxForce = Vector3.new(400000,400000,400000)
+        bp.Position = char.HumanoidRootPart.Position
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if flyEnabled and char and char:FindFirstChild("HumanoidRootPart") and bp then
+                bp.Position = char.HumanoidRootPart.Position + Vector3.new(0,3,0)
+            end
+        end)
+    else
+        if char and char:FindFirstChild("HumanoidRootPart"):FindFirstChild("MirandaFly") then
+            char.HumanoidRootPart.MirandaFly:Destroy()
+        end
     end
+end
+
+local function toggleNoclip()
+    noclipEnabled = not noclipEnabled
+end
+
+game:GetService("RunService").Stepped:Connect(function()
+    if noclipEnabled and lp.Character then
+        for _,v in pairs(lp.Character:GetChildren()) do
+            if v:IsA("BasePart") then
+                v.CanCollide = false
+            end
+        end
+    end
+end)
+
+local function toggleGodmode()
+    godmodeEnabled = not godmodeEnabled
+    if godmodeEnabled and lp.Character and lp.Character:FindFirstChild("Humanoid") then
+        lp.Character.Humanoid.MaxHealth = math.huge
+        lp.Character.Humanoid.Health = math.huge
+    elseif lp.Character and lp.Character:FindFirstChild("Humanoid") then
+        lp.Character.Humanoid.MaxHealth = 100
+    end
+end
+
+local btnFly = Instance.new("TextButton", tabFrames["Jugador"])
+btnFly.Text = "Fly"
+btnFly.Position = UDim2.new(0,10,0,10)
+btnFly.Size = UDim2.new(0,170,0,30)
+btnFly.BackgroundColor3 = Color3.fromRGB(80,120,180)
+btnFly.Font = Enum.Font.Gotham
+btnFly.TextColor3 = Color3.fromRGB(255,255,255)
+btnFly.TextSize = 16
+btnFly.MouseButton1Click:Connect(toggleFly)
+
+local btnNoclip = Instance.new("TextButton", tabFrames["Jugador"])
+btnNoclip.Text = "Noclip"
+btnNoclip.Position = UDim2.new(0,200,0,10)
+btnNoclip.Size = UDim2.new(0,170,0,30)
+btnNoclip.BackgroundColor3 = Color3.fromRGB(80,120,180)
+btnNoclip.Font = Enum.Font.Gotham
+btnNoclip.TextColor3 = Color3.fromRGB(255,255,255)
+btnNoclip.TextSize = 16
+btnNoclip.MouseButton1Click:Connect(toggleNoclip)
+
+local btnGod = Instance.new("TextButton", tabFrames["Jugador"])
+btnGod.Text = "Godmode"
+btnGod.Position = UDim2.new(0,10,0,50)
+btnGod.Size = UDim2.new(0,170,0,30)
+btnGod.BackgroundColor3 = Color3.fromRGB(80,180,120)
+btnGod.Font = Enum.Font.Gotham
+btnGod.TextColor3 = Color3.fromRGB(255,255,255)
+btnGod.TextSize = 16
+btnGod.MouseButton1Click:Connect(toggleGodmode)
+
+local wsLabel = Instance.new("TextLabel", tabFrames["Jugador"])
+wsLabel.Text = "WalkSpeed:"
+wsLabel.Position = UDim2.new(0,10,0,90)
+wsLabel.Size = UDim2.new(0,90,0,24)
+wsLabel.BackgroundTransparency = 1
+wsLabel.Font = Enum.Font.Gotham
+wsLabel.TextColor3 = Color3.fromRGB(220,220,220)
+wsLabel.TextSize = 16
+
+local wsBox = Instance.new("TextBox", tabFrames["Jugador"])
+wsBox.Text = "16"
+wsBox.Position = UDim2.new(0,110,0,90)
+wsBox.Size = UDim2.new(0,60,0,24)
+wsBox.BackgroundColor3 = Color3.fromRGB(60,60,60)
+wsBox.Font = Enum.Font.Gotham
+wsBox.TextColor3 = Color3.fromRGB(255,255,255)
+wsBox.TextSize = 16
+
+local wsBtn = Instance.new("TextButton", tabFrames["Jugador"])
+wsBtn.Text = "Cambiar"
+wsBtn.Position = UDim2.new(0,180,0,90)
+wsBtn.Size = UDim2.new(0,60,0,24)
+wsBtn.BackgroundColor3 = Color3.fromRGB(40,120,80)
+wsBtn.Font = Enum.Font.Gotham
+wsBtn.TextColor3 = Color3.fromRGB(255,255,255)
+wsBtn.TextSize = 14
+wsBtn.MouseButton1Click:Connect(function()
+    if lp.Character and lp.Character:FindFirstChild("Humanoid") then
+        lp.Character.Humanoid.WalkSpeed = tonumber(wsBox.Text) or 16
+    end
+end)
+
+local jpLabel = Instance.new("TextLabel", tabFrames["Jugador"])
+jpLabel.Text = "JumpPower:"
+jpLabel.Position = UDim2.new(0,10,0,120)
+jpLabel.Size = UDim2.new(0,90,0,24)
+jpLabel.BackgroundTransparency = 1
+jpLabel.Font = Enum.Font.Gotham
+jpLabel.TextColor3 = Color3.fromRGB(220,220,220)
+jpLabel.TextSize = 16
+
+local jpBox = Instance.new("TextBox", tabFrames["Jugador"])
+jpBox.Text = "50"
+jpBox.Position = UDim2.new(0,110,0,120)
+jpBox.Size = UDim2.new(0,60,0,24)
+jpBox.BackgroundColor3 = Color3.fromRGB(60,60,60)
+jpBox.Font = Enum.Font.Gotham
+jpBox.TextColor3 = Color3.fromRGB(255,255,255)
+jpBox.TextSize = 16
+
+local jpBtn = Instance.new("TextButton", tabFrames["Jugador"])
+jpBtn.Text = "Cambiar"
+jpBtn.Position = UDim2.new(0,180,0,120)
+jpBtn.Size = UDim2.new(0,60,0,24)
+jpBtn.BackgroundColor3 = Color3.fromRGB(40,120,80)
+jpBtn.Font = Enum.Font.Gotham
+jpBtn.TextColor3 = Color3.fromRGB(255,255,255)
+jpBtn.TextSize = 14
+jpBtn.MouseButton1Click:Connect(function()
+    if lp.Character and lp.Character:FindFirstChild("Humanoid") then
+        lp.Character.Humanoid.JumpPower = tonumber(jpBox.Text) or 50
+    end
+end)
+
+-- Trolleos Tab: Chat Spam, Sound Spam, Invisible, Reset
+local trollActions = {
+    {"Chat Spam", function()
+        for i=1,10 do
+            game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("¡Miranda Hub Brainrot!", "All")
+            wait(0.2)
+        end
+    end},
+    {"Sound Spam", function()
+        local char = lp.Character
+        if char and char:FindFirstChild("HumanoidRootPart") then
+            for i=1,5 do
+                local s = Instance.new("Sound", char.HumanoidRootPart)
+                s.SoundId = "rbxassetid://142376088"
+                s.Volume = 5
+                s:Play()
+                game:GetService("Debris"):AddItem(s, 2)
+                wait(0.3)
+            end
+        end
+    end},
+    {"Invisible", function()
+        local char = lp.Character
+        if char then
+            for _,v in pairs(char:GetChildren()) do
+                if v:IsA("BasePart") then
+                    v.Transparency = 1
+                end
+            end
+        end
+    end},
+    {"Reset", function()
+        if lp.Character and lp.Character:FindFirstChild("Humanoid") then
+            lp.Character.Humanoid.Health = 0
+        end
+    end},
+}
+
+for i, act in ipairs(trollActions) do
+    local btn = Instance.new("TextButton", tabFrames["Trolleos"])
+    btn.Text = act[1]
+    btn.Position = UDim2.new(0,10,0,10+(i-1)*38)
+    btn.Size = UDim2.new(0,360,0,30)
+    btn.BackgroundColor3 = Color3.fromRGB(180,40,80)
+    btn.Font = Enum.Font.Gotham
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.TextSize = 16
+    btn.MouseButton1Click:Connect(act[2])
+end
+
+-- Extras Tab: Créditos, cerrar
+local credits = Instance.new("TextLabel", tabFrames["Extras"])
+credits.Text = "Miranda Hub inspirado en TikTok - senkooooo666"
+credits.Position = UDim2.new(0,10,0,10)
+credits.Size = UDim2.new(0,360,0,30)
+credits.BackgroundTransparency = 1
+credits.Font = Enum.Font.Gotham
+credits.TextColor3 = Color3.fromRGB(255,255,120)
+credits.TextSize = 16
+
+local closeBtn = Instance.new("TextButton", tabFrames["Extras"])
+closeBtn.Text = "Cerrar Hub"
+closeBtn.Position = UDim2.new(0,10,0,50)
+closeBtn.Size = UDim2.new(0,360,0,30)
+closeBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextColor3 = Color3.fromRGB(255,255,255)
+closeBtn.TextSize = 16
+closeBtn.MouseButton1Click:Connect(function()
+    gui:Destroy()
 end)
