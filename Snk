@@ -1,73 +1,92 @@
-local placeId = game.PlaceId
+local MirandaHub = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local TpButton = Instance.new("TextButton")
+local NoclipButton = Instance.new("TextButton")
+local AvatarButton = Instance.new("TextButton")
+local TrollingButton = Instance.new("TextButton")
+local CloseButton = Instance.new("TextButton")
 
--- Función para crear el menú visual tipo KSS
-local function createSnkMenu()
-    local gui = Instance.new("ScreenGui")
-    gui.Name = "SNK_Menu"
-    gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+-- Configuración GUI
+MirandaHub.Name = "MirandaHub"
+MirandaHub.Parent = game.CoreGui
 
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0, 260, 0, 280)
-    frame.Position = UDim2.new(0.5, -130, 0.5, -140)
-    frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    frame.BorderSizePixel = 3
-    frame.BorderColor3 = Color3.fromRGB(255, 0, 0)
-    frame.Parent = gui
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = MirandaHub
+MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+MainFrame.Position = UDim2.new(0.2, 0, 0.2, 0)
+MainFrame.Size = UDim2.new(0, 330, 0, 310)
+MainFrame.Active = true
+MainFrame.Draggable = true
 
-    local title = Instance.new("TextLabel")
-    title.Size = UDim2.new(1, 0, 0, 40)
-    title.BackgroundTransparency = 1
-    title.Text = "SNK MENU+"
-    title.Font = Enum.Font.GothamBold
-    title.TextColor3 = Color3.fromRGB(255, 0, 0)
-    title.TextSize = 26
-    title.Parent = frame
-    
-    local subtitle = Instance.new("TextLabel")
-    subtitle.Size = UDim2.new(1, 0, 0, 20)
-    subtitle.Position = UDim2.new(0, 0, 0, 35)
-    subtitle.BackgroundTransparency = 1
-    subtitle.Text = "TIKTOK: @snkteam"
-    subtitle.Font = Enum.Font.Gotham
-    subtitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    subtitle.TextSize = 13
-    subtitle.Parent = frame
+Title.Name = "Title"
+Title.Parent = MainFrame
+Title.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+Title.Size = UDim2.new(0, 330, 0, 32)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "Miranda Hub - Brainrot"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 22
 
-    local buttons = {
-        {Text = "ESP GOD", Color = Color3.fromRGB(255, 0, 0)},
-        {Text = "ESP SECRET", Color = Color3.fromRGB(255, 0, 0)},
-        {Text = "ESP BASE", Color = Color3.fromRGB(255, 0, 0)},
-        {Text = "ESP PLAYER", Color = Color3.fromRGB(255, 0, 0)},
-        {Text = "SNK Insta Steal", Color = Color3.fromRGB(255, 0, 0)},
-    }
+TpButton.Name = "TpButton"
+TpButton.Parent = MainFrame
+TpButton.Position = UDim2.new(0, 15, 0, 50)
+TpButton.Size = UDim2.new(0, 300, 0, 36)
+TpButton.BackgroundColor3 = Color3.fromRGB(20, 160, 100)
+TpButton.Font = Enum.Font.Gotham
+TpButton.Text = "Teletransporte a Jugador"
+TpButton.TextColor3 = Color3.fromRGB(255,255,255)
+TpButton.TextSize = 18
 
-    for i, btn in ipairs(buttons) do
-        local b = Instance.new("TextButton")
-        b.Size = UDim2.new(0.9, 0, 0, 38)
-        b.Position = UDim2.new(0.05, 0, 0, 60 + (i-1)*42)
-        b.BackgroundColor3 = btn.Color
-        b.BorderSizePixel = 0
-        b.Text = btn.Text
-        b.Font = Enum.Font.GothamBold
-        b.TextColor3 = Color3.fromRGB(255,255,255)
-        b.TextSize = 18
-        b.Parent = frame
-        -- Aquí puedes agregar funcionalidad a cada botón si deseas
+NoclipButton.Name = "NoclipButton"
+NoclipButton.Parent = MainFrame
+NoclipButton.Position = UDim2.new(0, 15, 0, 100)
+NoclipButton.Size = UDim2.new(0, 300, 0, 36)
+NoclipButton.BackgroundColor3 = Color3.fromRGB(20, 120, 180)
+NoclipButton.Font = Enum.Font.Gotham
+NoclipButton.Text = "Activar Noclip"
+NoclipButton.TextColor3 = Color3.fromRGB(255,255,255)
+NoclipButton.TextSize = 18
+
+AvatarButton.Name = "AvatarButton"
+AvatarButton.Parent = MainFrame
+AvatarButton.Position = UDim2.new(0, 15, 0, 150)
+AvatarButton.Size = UDim2.new(0, 300, 0, 36)
+AvatarButton.BackgroundColor3 = Color3.fromRGB(220, 120, 20)
+AvatarButton.Font = Enum.Font.Gotham
+AvatarButton.Text = "Cambiar Avatar (Random)"
+AvatarButton.TextColor3 = Color3.fromRGB(255,255,255)
+AvatarButton.TextSize = 18
+
+TrollingButton.Name = "TrollingButton"
+TrollingButton.Parent = MainFrame
+TrollingButton.Position = UDim2.new(0, 15, 0, 200)
+TrollingButton.Size = UDim2.new(0, 300, 0, 36)
+TrollingButton.BackgroundColor3 = Color3.fromRGB(180, 20, 60)
+TrollingButton.Font = Enum.Font.Gotham
+TrollingButton.Text = "Trollear (Sonidos/Mensajes)"
+TrollingButton.TextColor3 = Color3.fromRGB(255,255,255)
+TrollingButton.TextSize = 18
+
+CloseButton.Name = "CloseButton"
+CloseButton.Parent = MainFrame
+CloseButton.Position = UDim2.new(0, 240, 0, 260)
+CloseButton.Size = UDim2.new(0, 75, 0, 32)
+CloseButton.BackgroundColor3 = Color3.fromRGB(60,60,60)
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.Text = "Cerrar"
+CloseButton.TextColor3 = Color3.fromRGB(255,255,255)
+CloseButton.TextSize = 16
+
+-- Funciones
+
+-- Teletransporte
+TpButton.MouseButton1Click:Connect(function()
+    local plr = game.Players.LocalPlayer
+    local targetName = game:GetService("Players"):GetPlayers()[math.random(1,#game:GetService("Players"):GetPlayers())].Name
+    local target = game.Players:FindFirstChild(targetName)
+    if target and target.Character and plr.Character then
+        plr.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame + Vector3.new(2,0,2)
+        Title.Text = "Teletransportado cerca de "..targetName
     end
-end
-
-if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 128762245270197 then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Ninja10908/S4/refs/heads/main/Stel"))()
-    createSnkMenu()
-elseif placeId == 126884695634066 then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Ninja10908/Brok/refs/heads/main/Main-grow"))()
-    createSnkMenu()
-else
-    pcall(function()
-        game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "SNK",
-            Duration = 10,
-            Text = "grow a garden \n steal a brainrot"
-        })
-    end)
-end
+end)
