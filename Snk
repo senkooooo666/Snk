@@ -1,18 +1,16 @@
-
-
 local placeId = game.PlaceId
 
--- Función para crear el menú estilo KSS (similar a las imágenes)
+-- Función para crear el menú visual tipo KSS
 local function createSnkMenu()
     local gui = Instance.new("ScreenGui")
     gui.Name = "SNK_Menu"
     gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
     local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0, 300, 0, 300)
-    frame.Position = UDim2.new(0.5, -150, 0.5, -150)
+    frame.Size = UDim2.new(0, 260, 0, 280)
+    frame.Position = UDim2.new(0.5, -130, 0.5, -140)
     frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    frame.BorderSizePixel = 2
+    frame.BorderSizePixel = 3
     frame.BorderColor3 = Color3.fromRGB(255, 0, 0)
     frame.Parent = gui
 
@@ -22,10 +20,19 @@ local function createSnkMenu()
     title.Text = "SNK MENU+"
     title.Font = Enum.Font.GothamBold
     title.TextColor3 = Color3.fromRGB(255, 0, 0)
-    title.TextSize = 28
+    title.TextSize = 26
     title.Parent = frame
+    
+    local subtitle = Instance.new("TextLabel")
+    subtitle.Size = UDim2.new(1, 0, 0, 20)
+    subtitle.Position = UDim2.new(0, 0, 0, 35)
+    subtitle.BackgroundTransparency = 1
+    subtitle.Text = "TIKTOK: @snkteam"
+    subtitle.Font = Enum.Font.Gotham
+    subtitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    subtitle.TextSize = 13
+    subtitle.Parent = frame
 
-    -- Ejemplo de botones como el menú KSS
     local buttons = {
         {Text = "ESP GOD", Color = Color3.fromRGB(255, 0, 0)},
         {Text = "ESP SECRET", Color = Color3.fromRGB(255, 0, 0)},
@@ -37,15 +44,15 @@ local function createSnkMenu()
     for i, btn in ipairs(buttons) do
         local b = Instance.new("TextButton")
         b.Size = UDim2.new(0.9, 0, 0, 38)
-        b.Position = UDim2.new(0.05, 0, 0, 45 + (i-1)*42)
+        b.Position = UDim2.new(0.05, 0, 0, 60 + (i-1)*42)
         b.BackgroundColor3 = btn.Color
+        b.BorderSizePixel = 0
         b.Text = btn.Text
         b.Font = Enum.Font.GothamBold
         b.TextColor3 = Color3.fromRGB(255,255,255)
-        b.TextSize = 20
+        b.TextSize = 18
         b.Parent = frame
-        -- Puedes conectar funcionalidades aquí, ej:
-        -- b.MouseButton1Click:Connect(function() ... end)
+        -- Aquí puedes agregar funcionalidad a cada botón si deseas
     end
 end
 
@@ -56,7 +63,6 @@ elseif placeId == 126884695634066 then
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Ninja10908/Brok/refs/heads/main/Main-grow"))()
     createSnkMenu()
 else
-    -- Notificación si es el juego equivocado, cambiado "Kurdhub" por "SNK"
     pcall(function()
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "SNK",
