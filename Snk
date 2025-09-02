@@ -1,8 +1,6 @@
-loadstring(game:HttpGet("https://pastefy.app/NU4lqGZe/raw"))()
 loadstring(game:HttpGet("https://pastefy.app/9YIyWc7E/raw"))()
-
 -- Selector de PlaceId y Botón para Teletransportar a tu base (username/apodo)
--- Adaptado por Miranda Hub
+
 
 local plr = game.Players.LocalPlayer
 local username = plr.Name -- Tu username
@@ -73,7 +71,7 @@ if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 1287622
             end
         else
             game.StarterGui:SetCore("SendNotification", {
-                Title = "Miranda Hub",
+                Title = "Senko Hub",
                 Text = "No se encontró tu base (" .. username .. " / " .. nickname .. ").",
                 Duration = 3
             })
@@ -84,7 +82,7 @@ else
     -- Notificación si es el juego equivocado
     pcall(function()
         game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "Kurdhub",
+            Title = "Senkohub",
             Duration = 10,
             Text = "grow a garden \n steal a brainrot"
         })
