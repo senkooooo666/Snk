@@ -1,7 +1,9 @@
--- Miranda Hub - Botón TP a base "snkkddddd" (Roba un brainrot)
--- senkooooo666
+-- Miranda Hub - Botón TP a base por username y apodo
+-- unnrrgggdddd / snkkddddd
 
 local plr = game.Players.LocalPlayer
+local username = plr.Name -- "unnrrgggdddd"
+local nickname = "snkkddddd" -- Poner aquí tu apodo manualmente
 
 -- Crear GUI flotante
 local gui = Instance.new("ScreenGui")
@@ -23,10 +25,19 @@ btn.Draggable = true
 
 btn.MouseButton1Click:Connect(function()
     local base = nil
-    if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild("snkkddddd") then
-        base = workspace.Bases["snkkddddd"]
-    elseif workspace:FindFirstChild("snkkddddd") then
-        base = workspace["snkkddddd"]
+    -- Busca por username
+    if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild(username) then
+        base = workspace.Bases[username]
+    elseif workspace:FindFirstChild(username) then
+        base = workspace[username]
+    end
+    -- Si no la encuentra, busca por apodo
+    if not base then
+        if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild(nickname) then
+            base = workspace.Bases[nickname]
+        elseif workspace:FindFirstChild(nickname) then
+            base = workspace[nickname]
+        end
     end
 
     local destino = nil
@@ -40,13 +51,13 @@ btn.MouseButton1Click:Connect(function()
         plr.Character.HumanoidRootPart.CFrame = destino.CFrame + Vector3.new(0,5,0)
         game.StarterGui:SetCore("SendNotification", {
             Title = "Miranda Hub",
-            Text = "¡Teletransportado a tu base snkkddddd!",
+            Text = "¡Teletransportado a tu base " .. base.Name .. "!",
             Duration = 3
         })
     else
         game.StarterGui:SetCore("SendNotification", {
             Title = "Miranda Hub",
-            Text = "No se encontró tu base snkkddddd.",
+            Text = "No se encontró tu base (" .. username .. " / " .. nickname .. ").",
             Duration = 3
         })
     end
