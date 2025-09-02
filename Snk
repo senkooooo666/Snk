@@ -1,5 +1,3 @@
-
-
 -- Selector de PlaceId y Botón para Teletransportar a tu base (username/apodo)
 -- Adaptado por Miranda Hub
 
@@ -30,7 +28,7 @@ if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 1287622
     btn.Active = true
     btn.Draggable = true
 
-    btn.MouseButton1Click:Connect(function()
+    local function encontrarBase()
         local base = nil
         -- Busca por username
         if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild(username) then
@@ -38,7 +36,7 @@ if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 1287622
         elseif workspace:FindFirstChild(username) then
             base = workspace[username]
         end
-        -- Si no la encuentra, busca por apodo
+        -- Busca por nickname si no se encuentra con username
         if not base then
             if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild(nickname) then
                 base = workspace.Bases[nickname]
@@ -46,7 +44,11 @@ if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 1287622
                 base = workspace[nickname]
             end
         end
+        
+        return base
+    end
 
+    local function teletransportar(base)
         local destino = nil
         if base and base:FindFirstChild("BasePart") then
             destino = base.BasePart
@@ -65,7 +67,7 @@ if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 1287622
                 end
 
                 -- Teletransportar al jugador
-                hrp.CFrame = destino.CFrame + Vector3.new(0,5,0)
+                hrp.CFrame = CFrame.new(destino.Position + Vector3.new(0,5,0))
 
                 -- Notificación de éxito
                 game.StarterGui:SetCore("SendNotification", {
@@ -92,6 +94,19 @@ if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 1287622
             game.StarterGui:SetCore("SendNotification", {
                 Title = "Miranda Hub",
                 Text = "No se encontró tu base (" .. username .. " / " .. nickname .. ").",
+                Duration = 3
+            })
+        end
+    end
+
+    btn.MouseButton1Click:Connect(function()
+        local base = encontrarBase()
+        if base then
+            teletransportar(base)
+        else
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Miranda Hub",
+                Text = "No se encontró ninguna base para: " .. username .. " / " .. nickname,
                 Duration = 3
             })
         end
