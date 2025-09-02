@@ -1,55 +1,53 @@
--- Miranda Hub - Tycoon auto-teleport a base cuando aparece objeto robado
--- Para "Roba un brainrot" (Tycoon)
+-- Miranda Hub - Botón TP a base "snkkddddd" (Roba un brainrot)
 -- senkooooo666
 
 local plr = game.Players.LocalPlayer
-local base = nil
 
--- Buscar tu base en workspace.Bases.[TuNombre]
-if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild(plr.Name) then
-    base = workspace.Bases[plr.Name]
-else
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Miranda Hub",
-        Text = "No se encontró tu base.",
-        Duration = 3
-    })
-    return
-end
+-- Crear GUI flotante
+local gui = Instance.new("ScreenGui")
+gui.Name = "MirandaHubTpBase"
+gui.Parent = game.CoreGui
 
--- Detectar aparición de objetos nuevos en la base
-local knownChildren = {}
-for _,obj in pairs(base:GetChildren()) do
-    table.insert(knownChildren, obj)
-end
+local btn = Instance.new("TextButton")
+btn.Parent = gui
+btn.Size = UDim2.new(0,180,0,42)
+btn.Position = UDim2.new(0.5,-90,0.15,0)
+btn.BackgroundColor3 = Color3.fromRGB(30,30,30)
+btn.Text = "Teletransportar a mi base"
+btn.TextColor3 = Color3.fromRGB(255,255,255)
+btn.Font = Enum.Font.GothamBold
+btn.TextSize = 17
+btn.BorderSizePixel = 0
+btn.Active = true
+btn.Draggable = true
 
-base.ChildAdded:Connect(function(obj)
-    -- Si el objeto nuevo NO está en la lista inicial, es robado o generado
-    local nuevo = true
-    for _,v in pairs(knownChildren) do
-        if v == obj then
-            nuevo = false
-            break
-        end
+btn.MouseButton1Click:Connect(function()
+    local base = nil
+    if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild("snkkddddd") then
+        base = workspace.Bases["snkkddddd"]
+    elseif workspace:FindFirstChild("snkkddddd") then
+        base = workspace["snkkddddd"]
     end
-    if nuevo then
-        -- Teletransporta al jugador a la base (al centro de la base)
-        local destino = nil
-        if base:FindFirstChild("BasePart") then
-            destino = base.BasePart
-        elseif base:FindFirstChildWhichIsA("Part") then
-            destino = base:FindFirstChildWhichIsA("Part")
-        else
-            destino = obj -- Si el objeto mismo es un Part
-        end
 
-        if destino then
-            plr.Character.HumanoidRootPart.CFrame = destino.CFrame + Vector3.new(0,5,0)
-            game.StarterGui:SetCore("SendNotification", {
-                Title = "Miranda Hub",
-                Text = "¡Teletransportado a tu base tras robo exitoso!",
-                Duration = 3
-            })
-        end
+    local destino = nil
+    if base and base:FindFirstChild("BasePart") then
+        destino = base.BasePart
+    elseif base and base:FindFirstChildWhichIsA("Part") then
+        destino = base:FindFirstChildWhichIsA("Part")
+    end
+
+    if destino then
+        plr.Character.HumanoidRootPart.CFrame = destino.CFrame + Vector3.new(0,5,0)
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Miranda Hub",
+            Text = "¡Teletransportado a tu base snkkddddd!",
+            Duration = 3
+        })
+    else
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Miranda Hub",
+            Text = "No se encontró tu base snkkddddd.",
+            Duration = 3
+        })
     end
 end)
