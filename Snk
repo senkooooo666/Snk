@@ -1,5 +1,7 @@
--- Selector de PlaceId y Botón para Teletransportar a tu base (username/apodo)
 
+
+-- Selector de PlaceId y Botón para Teletransportar a tu base (username/apodo)
+-- Adaptado por Miranda Hub
 
 local plr = game.Players.LocalPlayer
 local username = plr.Name -- Tu username
@@ -55,12 +57,30 @@ if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 1287622
         if destino then
             local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
             if hrp then
+                -- Desactivar colisiones temporalmente
+                for _, descendant in ipairs(plr.Character:GetDescendants()) do
+                    if descendant:IsA("BasePart") then
+                        descendant.CanCollide = false
+                    end
+                end
+
+                -- Teletransportar al jugador
                 hrp.CFrame = destino.CFrame + Vector3.new(0,5,0)
+
+                -- Notificación de éxito
                 game.StarterGui:SetCore("SendNotification", {
                     Title = "Miranda Hub",
                     Text = "¡Teletransportado a tu base " .. base.Name .. "!",
                     Duration = 3
                 })
+
+                -- Reactivar colisiones después de 2 segundos
+                wait(2)
+                for _, descendant in ipairs(plr.Character:GetDescendants()) do
+                    if descendant:IsA("BasePart") then
+                        descendant.CanCollide = true
+                    end
+                end
             else
                 game.StarterGui:SetCore("SendNotification", {
                     Title = "Miranda Hub",
@@ -70,7 +90,7 @@ if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 1287622
             end
         else
             game.StarterGui:SetCore("SendNotification", {
-                Title = "Senko Hub",
+                Title = "Miranda Hub",
                 Text = "No se encontró tu base (" .. username .. " / " .. nickname .. ").",
                 Duration = 3
             })
@@ -81,7 +101,7 @@ else
     -- Notificación si es el juego equivocado
     pcall(function()
         game:GetService("StarterGui"):SetCore("SendNotification", {
-            Title = "Senkohub",
+            Title = "Kurdhub",
             Duration = 10,
             Text = "grow a garden \n steal a brainrot"
         })
