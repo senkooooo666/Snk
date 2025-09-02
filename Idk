@@ -1,1 +1,16 @@
-loadstring(game:HttpGet("https://pastefy.app/9YIyWc7E/raw"))()
+local placeId = game.PlaceId
+
+if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 128762245270197 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Ninja10908/S4/refs/heads/main/Stel"))()
+elseif placeId == 126884695634066 then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Ninja10908/Brok/refs/heads/main/Main-grow"))()
+else
+    -- Notification if wrong game
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Senko hub",
+            Duration = 9,
+            Text = "grow a garden \n steal a brainrot"
+        })
+    end)
+end
