@@ -1,64 +1,89 @@
--- Miranda Hub - Botón TP a base por username y apodo
--- unnrrgggdddd / snkkddddd
+-- Selector de PlaceId y Botón para Teletransportar a tu base (username/apodo)
+-- Adaptado por Miranda Hub
 
 local plr = game.Players.LocalPlayer
-local username = plr.Name -- "unnrrgggdddd"
-local nickname = "snkkddddd" -- Poner aquí tu apodo manualmente
+local username = plr.Name -- Tu username
+local nickname = "snkkddddd" -- Cambia aquí tu apodo manualmente
 
--- Crear GUI flotante
-local gui = Instance.new("ScreenGui")
-gui.Name = "MirandaHubTpBase"
-gui.Parent = game.CoreGui
+local placeId = game.PlaceId
 
-local btn = Instance.new("TextButton")
-btn.Parent = gui
-btn.Size = UDim2.new(0,180,0,42)
-btn.Position = UDim2.new(0.5,-90,0.15,0)
-btn.BackgroundColor3 = Color3.fromRGB(30,30,30)
-btn.Text = "Teletransportar a mi base"
-btn.TextColor3 = Color3.fromRGB(255,255,255)
-btn.Font = Enum.Font.GothamBold
-btn.TextSize = 17
-btn.BorderSizePixel = 0
-btn.Active = true
-btn.Draggable = true
+-- Solo ejecuta el botón si el PlaceId es válido
+if placeId == 109983668079237 or placeId == 96342491571673 or placeId == 128762245270197 or placeId == 126884695634066 then
 
-btn.MouseButton1Click:Connect(function()
-    local base = nil
-    -- Busca por username
-    if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild(username) then
-        base = workspace.Bases[username]
-    elseif workspace:FindFirstChild(username) then
-        base = workspace[username]
-    end
-    -- Si no la encuentra, busca por apodo
-    if not base then
-        if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild(nickname) then
-            base = workspace.Bases[nickname]
-        elseif workspace:FindFirstChild(nickname) then
-            base = workspace[nickname]
+    -- Crear GUI flotante
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "MirandaHubTpBase"
+    gui.Parent = game.CoreGui
+
+    local btn = Instance.new("TextButton")
+    btn.Parent = gui
+    btn.Size = UDim2.new(0,180,0,42)
+    btn.Position = UDim2.new(0.5,-90,0.15,0)
+    btn.BackgroundColor3 = Color3.fromRGB(30,30,30)
+    btn.Text = "Teletransportar a mi base"
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 17
+    btn.BorderSizePixel = 0
+    btn.Active = true
+    btn.Draggable = true
+
+    btn.MouseButton1Click:Connect(function()
+        local base = nil
+        -- Busca por username
+        if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild(username) then
+            base = workspace.Bases[username]
+        elseif workspace:FindFirstChild(username) then
+            base = workspace[username]
         end
-    end
+        -- Si no la encuentra, busca por apodo
+        if not base then
+            if workspace:FindFirstChild("Bases") and workspace.Bases:FindFirstChild(nickname) then
+                base = workspace.Bases[nickname]
+            elseif workspace:FindFirstChild(nickname) then
+                base = workspace[nickname]
+            end
+        end
 
-    local destino = nil
-    if base and base:FindFirstChild("BasePart") then
-        destino = base.BasePart
-    elseif base and base:FindFirstChildWhichIsA("Part") then
-        destino = base:FindFirstChildWhichIsA("Part")
-    end
+        local destino = nil
+        if base and base:FindFirstChild("BasePart") then
+            destino = base.BasePart
+        elseif base and base:FindFirstChildWhichIsA("Part") then
+            destino = base:FindFirstChildWhichIsA("Part")
+        end
 
-    if destino then
-        plr.Character.HumanoidRootPart.CFrame = destino.CFrame + Vector3.new(0,5,0)
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Miranda Hub",
-            Text = "¡Teletransportado a tu base " .. base.Name .. "!",
-            Duration = 3
+        if destino then
+            local hrp = plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then
+                hrp.CFrame = destino.CFrame + Vector3.new(0,5,0)
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Miranda Hub",
+                    Text = "¡Teletransportado a tu base " .. base.Name .. "!",
+                    Duration = 3
+                })
+            else
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Miranda Hub",
+                    Text = "No se encontró tu personaje.",
+                    Duration = 3
+                })
+            end
+        else
+            game.StarterGui:SetCore("SendNotification", {
+                Title = "Miranda Hub",
+                Text = "No se encontró tu base (" .. username .. " / " .. nickname .. ").",
+                Duration = 3
+            })
+        end
+    end)
+
+else
+    -- Notificación si es el juego equivocado
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Kurdhub",
+            Duration = 10,
+            Text = "grow a garden \n steal a brainrot"
         })
-    else
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Miranda Hub",
-            Text = "No se encontró tu base (" .. username .. " / " .. nickname .. ").",
-            Duration = 3
-        })
-    end
-end)
+    end)
+end
